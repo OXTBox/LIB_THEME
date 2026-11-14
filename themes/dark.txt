@@ -1,0 +1,14 @@
+# LIB_THEME dark (default). key <tab> r,g,b. Read by livecode/lib_theme.livecodescript; any tool can read it.
+bg	30,30,34
+panel	42,42,48
+text	220,220,224
+dim	150,150,160
+border	70,70,80
+hilite	60,100,160
+off	48,48,56
+accent	64,224,255
+# menus: Windows draws a pulldown's list on a light background with the BUTTON's text colour,
+# so menu text must be dark: menus sit on a light strip (like a menu bar), never on the dark page
+menuBar	196,200,208
+menuFace	196,200,208
+menuText	20,20,24

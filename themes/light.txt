@@ -1,0 +1,12 @@
+# LIB_THEME light. key <tab> r,g,b
+bg	236,236,240
+panel	250,250,252
+text	24,24,28
+dim	110,110,120
+border	190,190,200
+hilite	150,190,240
+off	220,220,228
+accent	0,120,200
+menuBar	220,222,228
+menuFace	220,222,228
+menuText	20,20,24
