@@ -43,6 +43,12 @@ function Theme.Get pKey
    return sTheme[pKey]
 end Theme.Get
 
+-- change one colour in memory (the Theme Studio previews edits before it saves them)
+command Theme.Set pKey, pValue
+   if sTheme is empty then Theme.Use "dark"
+   put pValue into sTheme[pKey]
+end Theme.Set
+
 function Theme.Name
    return sName
 end Theme.Name
