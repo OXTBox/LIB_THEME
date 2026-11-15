@@ -12,8 +12,13 @@ script "lib_theme"
 ##   Theme.Get("panel")               one colour, "r,g,b"
 ##   Theme.Apply the long id of field "X"   one control
 ##   Theme.MenuBar "MyStack", 0, 0, 1140, 28   a light strip for pulldown menus to sit on
+##   Theme.TabStrip "Map", "1bit" & cr & "Cells", 288, 34, 84, 25   drawn tabs (see THE TAB RULE)
+##   Theme.TabSelect "Map", "Cells"   show which tab is selected
 ## THE MENU RULE: Windows draws a pulldown's list on a light background with the button's
 ## text colour, so menus get dark text (menuText) on a light face (menuFace), never light text.
+## THE TAB RULE (the owner, 11 15 2026): the native tab control (a button, menuMode "tabbed")
+## draws light grey text on white tabs whatever its colours. Do not use it: Theme.TabStrip
+## draws the tabs (one locked field each), in the theme's colours.
 ######################################################################################
 
 local sTheme, sName
@@ -145,3 +150,65 @@ command Theme.MenuBar pStack, pLeft, pTop, pRight, pBottom
    set the layer of tG to 1
    return tG
 end Theme.MenuBar
+
+-- drawn tabs, in the defaultStack: one locked field a tab, named "tab_<strip>_<n>" (n from 1),
+-- pTabs one name a line, the first selected. Left to right from pLeft,pTop, each pTabW x pTabH.
+-- A click sends   tabPick <strip>, <tab name>   to the tab's card (handle it in the card or
+-- stack script and call Theme.TabSelect, or the few lines of it: each tab carries its two
+-- looks in custom properties uOnBack, uOnText, uOffBack, uOffText, so a built stack shows its
+-- selection without this library). Put a page (a rectangle of Theme.Get("panel")) under them.
+command Theme.TabStrip pStrip, pTabs, pLeft, pTop, pTabW, pTabH
+   local n, tTab, tF, x
+   if sTheme is empty then Theme.Use "dark"
+   reset the templateField
+   put 0 into n
+   put pLeft into x
+   repeat for each line tTab in pTabs
+      add 1 to n
+      create field ("tab_" & pStrip & "_" & n)
+      put it into tF
+      set the rect of tF to x, pTop, x + pTabW, pTop + pTabH
+      set the text of tF to tTab
+      set the lockText of tF to true
+      set the traversalOn of tF to false
+      set the autoHilite of tF to false
+      set the dontWrap of tF to true
+      set the textAlign of tF to "center"
+      set the threeD of tF to false
+      set the showFocusBorder of tF to false
+      set the showBorder of tF to true
+      set the borderWidth of tF to 1
+      set the borderColor of tF to Theme.Get("border")
+      set the topMargin of tF to max(2, (pTabH - 16) div 2)
+      set the opaque of tF to true
+      set the uThemeSkip of tF to true
+      set the uTabStrip of tF to pStrip
+      set the uTabName of tF to tTab
+      set the uOnBack of tF to Theme.Get("panel")
+      set the uOnText of tF to Theme.Get("accent")
+      set the uOffBack of tF to Theme.Get("bg")
+      set the uOffText of tF to Theme.Get("dim")
+      set the script of tF to "on mouseDown" & return & "   dispatch " & quote & "tabPick" & quote & " to this card with (the uTabStrip of me), (the uTabName of me)" & return & "end mouseDown"
+      add pTabW - 1 to x
+   end repeat
+   Theme.TabSelect pStrip, line 1 of pTabs
+end Theme.TabStrip
+
+-- show which tab of a strip (on the current card of the defaultStack) is selected
+command Theme.TabSelect pStrip, pTab
+   local n, tF
+   put 1 into n
+   repeat while there is a field ("tab_" & pStrip & "_" & n)
+      put the long id of field ("tab_" & pStrip & "_" & n) into tF
+      if the uTabName of tF is pTab then
+         set the backgroundColor of tF to the uOnBack of tF
+         set the foregroundColor of tF to the uOnText of tF
+         set the textStyle of tF to "bold"
+      else
+         set the backgroundColor of tF to the uOffBack of tF
+         set the foregroundColor of tF to the uOffText of tF
+         set the textStyle of tF to "plain"
+      end if
+      add 1 to n
+   end repeat
+end Theme.TabSelect
