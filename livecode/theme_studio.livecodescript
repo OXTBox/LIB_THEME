@@ -318,6 +318,12 @@ command TS.ApplyAll
    end repeat
    set the foregroundColor of field "KeyNote" to Theme.Get("dim")
    set the backgroundColor of graphic "SampleMenuStrip" to Theme.Get("menuBar")
+   -- OXT-Beyond in Windows dark mode draws an option menu's button dark, so the menu rule's dark
+   -- text vanishes on it (seen 15 Nov): give this one light text. Open-list colours: still to see.
+   if the systemAppearance is "dark" then
+      set the foregroundColor of button "ThemeMenu" to Theme.Get("text")
+      set the backgroundColor of button "ThemeMenu" to Theme.Get("panel")
+   end if
    if sCurKey is not empty then set the backgroundColor of graphic "Swatch" to sVal[sCurKey]
    set the borderColor of graphic "Swatch" to Theme.Get("border")
    put "Scroll bars (A-90). This IDE reports systemAppearance =" && the systemAppearance & \
