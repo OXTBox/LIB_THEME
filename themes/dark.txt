@@ -1,9 +1,9 @@
 # LIB_THEME dark (default). key <tab> r,g,b. Read by livecode/lib_theme.livecodescript; any tool can read it.
-bg	30,30,34
+bg	15,9,21
 panel	42,42,48
 text	220,220,224
 dim	150,150,160
-border	70,70,80
+border	28,29,38
 hilite	60,100,160
 off	48,48,56
 accent	64,224,255
