@@ -30,3 +30,7 @@ properties, so a built stack needs no library for it). Put a panel-coloured page
 
 A control with the custom property `uThemeSkip` = true is left alone (hand-coloured graphics).
 Used by: LIB_BIT/editor (BitEditor).
+
+## Licence
+
+GPL-3.0 (see `LICENSE`), because the xTalk work here is built on the GPL-licensed LiveCode Community 9 engine. Copyright (c) 2026 xAction.
